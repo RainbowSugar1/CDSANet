@@ -35,6 +35,8 @@ Training
       python train.py
       
 Performance on MarishipInSseg:
+
+![image](Fig/result1.png)
       
 Performance on VLRSSD:
 
