@@ -10,6 +10,7 @@ Key requirements:
   mmcv==1.6.2
   numpy==1.23.2
   python==3.18.7
+  torchvision==0.13.0
 
 Dataset Preparation:
 
@@ -33,7 +34,10 @@ Training
 
       python train.py
       
+Performance on MarishipInSseg:
+      
 Performance on VLRSSD:
+
 ![image](Fig/result.png)
   
 Key Components:
