@@ -27,7 +27,7 @@ Dataset Preparation:
      
 Training
 
-  To train LFG-Net model with original settings of our paper, run:
+  To train CDSANet model with original settings of our paper, run:
 
       python train.py
   
