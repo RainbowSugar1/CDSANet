@@ -10,12 +10,19 @@ Key requirements:
   python==3.18.7
 
 Dataset Preparation:
+
     mydata/
+    
      ├── train/
+     
         ├── images/
+        
         ├── labels/
+        
      ├── val/
+     
         ├── images/
+        
         ├── labels/
      
  
