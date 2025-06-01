@@ -5,6 +5,7 @@ Ship instance segmentation plays a crucial role in maritime applications such as
 ![image](Fig/图1.png)
 
 Key requirements:
+  window11 system
   PyTorch ==2.0.0
   CUDA ==12.6
   mmcv==1.6.2
