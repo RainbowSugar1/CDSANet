@@ -249,7 +249,7 @@ class Conv(nn.Module):
 
 
 #################
-class CTMViTBv3(nn.Module):
+class CVTA(nn.Module):
     def __init__(self, c1, c2, n=1, extra=2, shortcut=True, g=1, e=0.5,dropout=0.1):
         super().__init__()
         self.c = int(c2 * e)  # self.c用于调整中间通道数
@@ -264,37 +264,4 @@ class CTMViTBv3(nn.Module):
         x=self.dropout(x)
         return x  # 特征图a被传入mvitbv3,b则直接保留进行concat'''
 
-#class CTMViTBv3(nn.Module):
-    def __init__(self, c1, c2, n=1, extra=2, shortcut=True, g=1, e=0.5):
-        super().__init__()
-        self.c = int(c2 * e)  # self.c用于调整中间通道数
-        self.cv1 = Conv(c1, 2 * self.c, 1, 1)  # 卷积层1
-        self.cv2 = Conv(2 * self.c, c2, 1)  # 卷积层2
-        self.m = nn.Sequential(*(MViTBv3(self.c, self.c) for _ in range(n)))
-        #self.dropout=nn.Dropout(dropout)
 
-    def forward(self, x):
-        a, b = self.cv1(x).chunk(2,1)  # 特征图在此处被分割，一部分分为a,一部分分为b，.chunk(2, 1) 将其分为两部分，每部分的通道数为 self.c。最终得到的 a 和 b 的通道数分别是 self.c，通过Self.cv1得到的通道数为2*self.c
-        x=self.cv2(torch.cat((self.m(a), b), 1))
-       # x=self.dropout(x)
-        return x  # 特征图a被传入mvitbv3,b则直接保留进行concat'''
-
-'''class CTMViTBv3(nn.Module):
-    def __init__(self, c1, c2, n=1, extra=2, shortcut=True, g=1, e=0.5):
-        super().__init__()
-        self.c = int(c2 * e)
-        self.cv1 = conv_1x1_bn(c1, 2 * self.c)  # 输出 2*self.c 个通道
-        self.cv2 = conv_1x1_bn(self.c, c2)  # 将融合后的特征映射到 c2
-        self.mvit = MViTBv3(self.c, self.c)
-        # learnable 融合权重：对 a 分支和 b 分支分别赋予一个权重
-        self.fusion_weight = nn.Parameter(torch.ones(2))
-
-    def forward(self, x):
-        fused = self.cv1(x)  # shape: [B, 2*self.c, H, W]
-        a, b = fused.chunk(2, dim=1)
-        a = self.mvit(a)     # 经过 transformer 模块
-        # 动态融合：使用 softmax 对 fusion_weight 做归一化，再对两分支加权求和
-        weights = F.softmax(self.fusion_weight, dim=0)
-        fused_feature = weights[0] * a + weights[1] * b
-        out = self.cv2(fused_feature)
-        return out'''
