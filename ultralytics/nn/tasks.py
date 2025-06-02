@@ -49,7 +49,7 @@ from ultralytics.nn.modules import (
     Segment,
     Silence,
     WorldDetect,
-    CTMViTBv3,
+    CVTA,
     DOWConv,
     CBAM,
     SimAM,
@@ -949,12 +949,12 @@ def parse_model(d, ch, verbose=True):  # model_dict, input_channels(3)
             channels = [ch[x] for x in f]
             c2 = channels[0]       # output of the iAFF module ( output channel is eighter of the channels)
             args = [c2]
-        elif m in [CTMViTBv3]:
+        elif m in [CVTA]:
             c1, c2 = ch[f], args[0]
             if c2 != nc:  # if not output
                 c2 = make_divisible(min(c2, max_channels) * width, 8)
             args = [c1, c2, *args[1:]]
-            if m in [CTMViTBv3]:
+            if m in [CVTA]:
                 args.insert(2, n)  # number of repeats
                 n = 1
         elif m in [C3_ConvNeXtv2]:
