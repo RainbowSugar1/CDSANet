@@ -50,10 +50,7 @@ For questions or collaboration, feel free to contact:
 
 Corresponding author: Piao Wang  (m230200742@st.shou.edu.cn)
 
-Please cite our work if you find it useful:
-  title={CDSANet: A CNN-ViT-Attention Network for Ship Instance Segmentation in Visible-Light Images},
-  author={Zhu, Weidong and Wang, Piao and Xie, Qidi and Luo, Junjie and Niu, Chenrui},
-  journal={The Visual Computer}
+
   
 
 
