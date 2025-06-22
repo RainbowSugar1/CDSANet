@@ -91,7 +91,7 @@ class FeedForward(nn.Module):
         return self.net(x)
 
 
-class LiteVit(nn.Module):
+class MBTransformer(nn.Module):
     def __init__(self, dim, depth, heads, dim_head, mlp_dim, dropout=0.):  # depth为2
         super().__init__()
         self.layers = nn.ModuleList([])
@@ -110,15 +110,15 @@ class LiteVit(nn.Module):
 
 
 
-class MixViT(nn.Module):
+class MviTBv3(nn.Module):
     def __init__(self, channel, dim, depth=2, kernel_size=3, patch_size=(2, 2), mlp_dim=int(64 * 2), dropout=0.):
         super().__init__()
         self.ph, self.pw = patch_size
-        self.mv01 = InvResConv(channel, channel)
+        self.mv01 = Mv3Block(channel, channel)
         self.conv1 = conv_nxn_bn(channel, channel, kernel_size)
         self.conv3 = conv_1x1_bn(dim, channel)
         self.conv2 = conv_1x1_bn(channel, dim)
-        self.transformer = LiteVit(dim, depth, 4, 8, mlp_dim, dropout)
+        self.transformer = MBTransformer (dim, depth, 4, 8, mlp_dim, dropout)
         self.conv4 = conv_nxn_bn(2 * channel, channel, kernel_size)
         self.se=SEBlock(channel)
     def forward(self, x):
@@ -143,7 +143,7 @@ class MixViT(nn.Module):
         return x
 
 
-class InvResConv(nn.Module):
+class Mv3Block(nn.Module):
     def __init__(self, inp, oup, stride=1, expansion=4):
         super().__init__()
         self.stride = stride
@@ -230,7 +230,7 @@ class CVTA(nn.Module):
         self.c = int(c2 * e)  # self.c用于调整中间通道数
         self.cv1 = Conv(c1, 2 * self.c, 1, 1)  # 卷积层1
         self.cv2 = Conv(2 * self.c, c2, 1)  # 卷积层2
-        self.m = nn.Sequential(*( MixViT(self.c, self.c,dropout=dropout) for _ in range(n)))
+        self.m = nn.Sequential(*( MviTBv3(self.c, self.c,dropout=dropout) for _ in range(n)))
         self.dropout=nn.Dropout(dropout)
 
     def forward(self, x):
