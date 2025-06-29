@@ -64,7 +64,7 @@ from .conv import (
     SDI,
 )
 from .head import OBB, Classify, Detect, Pose, RTDETRDecoder, Segment, WorldDetect
-from .CTMViTv3 import CVTA
+from .CVTA import CVTA
 from .ConvNeXtv2 import C3_ConvNeXtv2
 from .DOWconv import DOConv2d, DOWConv
 from .SIMSPPF import SimSPPF
